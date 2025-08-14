@@ -378,7 +378,7 @@
 let currFolder;
 let crsong = new Audio();
 let songs = []; // This will hold the current playlist
-
+const url = "";
 /**
  * Formats seconds into a MM:SS time format.
  * @param {number} totalSeconds - The total seconds to format.
@@ -403,7 +403,7 @@ function formatTime(totalSeconds) {
 async function getSongs(folder) {
     currFolder = folder;
     try {
-        const response = await fetch(`http://127.0.0.1:5500/${folder}/`);
+        const response = await fetch(`${url}/${folder}/`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -506,7 +506,7 @@ async function display1() {
     // });
 
 
-    const response = await fetch(`http://127.0.0.1:5500/Songs/`);
+    const response = await fetch(`${url}/Songs/`);
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -533,7 +533,7 @@ async function display1() {
                 } else {
                     let folder = e.href.split('/').slice("-1")[0];
                     console.log(folder);
-                    const response = await fetch(`http://127.0.0.1:5500/Songs/${folder}/info.json`);
+                    const response = await fetch(`${url}/${folder}/info.json`);
                     const html = await response.json();
                     console.log(html);
                     cardsop.innerHTML = cardsop.innerHTML + `<div data-folder=${folder} class=" cards ">
@@ -677,5 +677,6 @@ async function main() {
         }
     })
 }
+
 
 main();
