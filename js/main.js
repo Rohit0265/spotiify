@@ -374,113 +374,113 @@
 // ek sur main codebhadwe
 
 
-// Global variables for the player's state
-let currFolder;
-let crsong = new Audio();
-let songs = []; // This will hold the current playlist
-const url = "";
-/**
- * Formats seconds into a MM:SS time format.
- * @param {number} totalSeconds - The total seconds to format.
- * @returns {string} The formatted time string (e.g., "03:21").
- */
-function formatTime(totalSeconds) {
-    if (isNaN(totalSeconds) || totalSeconds < 0) {
-        return "00:00";
-    }
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = Math.floor(totalSeconds % 60);
-    const paddedMinutes = String(minutes).padStart(2, '0');
-    const paddedSeconds = String(seconds).padStart(2, '0');
-    return `${paddedMinutes}:${paddedSeconds}`;
-}
+// // Global variables for the player's state
+// let currFolder;
+// let crsong = new Audio();
+// let songs = []; // This will hold the current playlist
+// const url = "";
+// /**
+//  * Formats seconds into a MM:SS time format.
+//  * @param {number} totalSeconds - The total seconds to format.
+//  * @returns {string} The formatted time string (e.g., "03:21").
+//  */
+// function formatTime(totalSeconds) {
+//     if (isNaN(totalSeconds) || totalSeconds < 0) {
+//         return "00:00";
+//     }
+//     const minutes = Math.floor(totalSeconds / 60);
+//     const seconds = Math.floor(totalSeconds % 60);
+//     const paddedMinutes = String(minutes).padStart(2, '0');
+//     const paddedSeconds = String(seconds).padStart(2, '0');
+//     return `${paddedMinutes}:${paddedSeconds}`;
+// }
 
-/**
- * Fetches the list of song file paths from a given folder on the server.
- * @param {string} folder - The path to the folder (e.g., "/Songs/ncs").
- * @returns {Promise<string[]>} A list of song file paths.
- */
-async function getSongs(folder) {
-    currFolder = folder;
-    try {
-        const response = await fetch(`${url}/${folder}/`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+// /**
+//  * Fetches the list of song file paths from a given folder on the server.
+//  * @param {string} folder - The path to the folder (e.g., "/Songs/ncs").
+//  * @returns {Promise<string[]>} A list of song file paths.
+//  */
+// async function getSongs(folder) {
+//     currFolder = folder;
+//     try {
+//         const response = await fetch(`${url}/${folder}/`);
+//         if (!response.ok) {
+//             throw new Error(`HTTP error! status: ${response.status}`);
+//         }
 
-        const html = await response.text();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        const links = doc.querySelectorAll('a');
-        const songFiles = [];
-        links.forEach(link => {
-            const href = link.getAttribute('href');
-            if (href && href.endsWith('.mp3')) {
-                songFiles.push(href);
-            }
-        });
-        return songFiles;
-    } catch (error) {
-        console.error("Failed to load songs:", error);
-        return []; // Return an empty array on error
-    }
-}
+//         const html = await response.text();
+//         const parser = new DOMParser();
+//         const doc = parser.parseFromString(html, 'text/html');
+//         const links = doc.querySelectorAll('a');
+//         const songFiles = [];
+//         links.forEach(link => {
+//             const href = link.getAttribute('href');
+//             if (href && href.endsWith('.mp3')) {
+//                 songFiles.push(href);
+//             }
+//         });
+//         return songFiles;
+//     } catch (error) {
+//         console.error("Failed to load songs:", error);
+//         return []; // Return an empty array on error
+//     }
+// }
 
-/**
- * Plays a song and updates the player UI.
- * @param {string} track - The name of the song to play (without extension).
- * @param {boolean} [paused=false] - If true, load the song but don't play it immediately.
- */
-const playmusic = (track, paused = false) => {
-    crsong.src = `${currFolder}/` + track.replaceAll(' ', '%20') + ".mp3";
-    if (!paused) {
-        crsong.play().catch(e => console.error("Error playing audio:", e));
-        play1.src = "img/pause.svg";
-    }
-    document.querySelector(".songinfos").innerHTML = track;
-    document.querySelector(".songdur").innerHTML = "00:00 / 00:00";
-};
+// /**
+//  * Plays a song and updates the player UI.
+//  * @param {string} track - The name of the song to play (without extension).
+//  * @param {boolean} [paused=false] - If true, load the song but don't play it immediately.
+//  */
+// const playmusic = (track, paused = false) => {
+//     crsong.src = `${currFolder}/` + track.replaceAll(' ', '%20') + ".mp3";
+//     if (!paused) {
+//         crsong.play().catch(e => console.error("Error playing audio:", e));
+//         play1.src = "img/pause.svg";
+//     }
+//     document.querySelector(".songinfos").innerHTML = track;
+//     document.querySelector(".songdur").innerHTML = "00:00 / 00:00";
+// };
 
-/**
- * Clears and redraws the playlist in the UI based on the provided songs.
- * @param {string[]} playlist - The list of song paths to display.
- */
-function refreshPlaylistUI(playlist) {
-    const songul = document.querySelector(".songlist ul");
-    songul.innerHTML = ""; // Clear the existing list
+// /**
+//  * Clears and redraws the playlist in the UI based on the provided songs.
+//  * @param {string[]} playlist - The list of song paths to display.
+//  */
+// function refreshPlaylistUI(playlist) {
+//     const songul = document.querySelector(".songlist ul");
+//     songul.innerHTML = ""; // Clear the existing list
 
-    for (const songPath of playlist) {
-        // Extract a clean song name from the path
-        const songName = songPath.split(`${currFolder}/`)[1].replaceAll("%20", " ").replace(".mp3", "") || "Unknown Song";
-        songul.innerHTML += `
-            <li class="songitem flex">
-                <img class="invert" src="img/musicsym.svg" alt="music symbol">
-                <div class="songinfo">
-                    <div>${songName}</div>
-                    <div>Artist Name</div>
-                </div>
-                <div class="play-now flex">
-                    <span>Play Now</span>
-                    <img class="invert" src="img/playm.svg" alt="play icon">
-                </div>
-            </li>`;
-    }
+//     for (const songPath of playlist) {
+//         // Extract a clean song name from the path
+//         const songName = songPath.split(`${currFolder}/`)[1].replaceAll("%20", " ").replace(".mp3", "") || "Unknown Song";
+//         songul.innerHTML += `
+//             <li class="songitem flex">
+//                 <img class="invert" src="img/musicsym.svg" alt="music symbol">
+//                 <div class="songinfo">
+//                     <div>${songName}</div>
+//                     <div>Artist Name</div>
+//                 </div>
+//                 <div class="play-now flex">
+//                     <span>Play Now</span>
+//                     <img class="invert" src="img/playm.svg" alt="play icon">
+//                 </div>
+//             </li>`;
+//     }
 
-    // Re-attach event listeners to the new list items
-    Array.from(songul.getElementsByTagName("li")).forEach(li => {
-        li.addEventListener("click", () => {
-            const songName = li.querySelector(".songinfo").firstElementChild.innerHTML;
-            playmusic(songName);
-        });
-    });
-}
+//     // Re-attach event listeners to the new list items
+//     Array.from(songul.getElementsByTagName("li")).forEach(li => {
+//         li.addEventListener("click", () => {
+//             const songName = li.querySelector(".songinfo").firstElementChild.innerHTML;
+//             playmusic(songName);
+//         });
+//     });
+// }
 
 
-/**
- * Main function to initialize the music player.
- */
+// /**
+//  * Main function to initialize the music player.
+//  */
 
-async function display1() {
+// async function display1() {
     // const response = await fetch(`/Songs/`);
     // if (!response.ok) {
     //     throw new Error(`HTTP error! status: ${response.status}`);
@@ -961,3 +961,4 @@ document.addEventListener("DOMContentLoaded", function() {
 
     main();
 });
+
