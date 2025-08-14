@@ -1,7 +1,7 @@
 let currFolder;
 let crsong = new Audio();
 let songs = []; // This will hold the current playlist
-const url = ""+"/";
+const url = "";
 
 /**
  * Formats seconds into a MM:SS time format.
@@ -260,5 +260,6 @@ async function main() {
 }
 
 main();
+
 
 
