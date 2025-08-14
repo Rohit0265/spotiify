@@ -680,7 +680,6 @@
 
 
 // main();
-
 document.addEventListener("DOMContentLoaded", function() {
     // =========================================================================
     // GLOBAL VARIABLES & STATE
@@ -708,46 +707,44 @@ document.addEventListener("DOMContentLoaded", function() {
     const cardContainer = document.querySelector(".card-container");
     const songListUL = document.querySelector(".songlist ul");
 
-
     // =========================================================================
-    // UTILITY FUNCTIONS
+    // HELPER & UTILITY FUNCTIONS
     // =========================================================================
 
     /**
      * Formats seconds into a MM:SS time format.
-     * @param {number} totalSeconds - The total seconds to format.
-     * @returns {string} The formatted time string (e.g., "03:21").
      */
     function formatTime(totalSeconds) {
-        if (isNaN(totalSeconds) || totalSeconds < 0) {
-            return "00:00";
-        }
+        if (isNaN(totalSeconds) || totalSeconds < 0) return "00:00";
         const minutes = Math.floor(totalSeconds / 60);
         const seconds = Math.floor(totalSeconds % 60);
-        const paddedMinutes = String(minutes).padStart(2, '0');
-        const paddedSeconds = String(seconds).padStart(2, '0');
-        return `${paddedMinutes}:${paddedSeconds}`;
+        return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
     }
 
+    /**
+     * Finds the index of the currently playing song in the `songs` array.
+     * @returns {number} The index of the current song, or -1 if not found.
+     */
+    function getCurrentSongIndex() {
+        if (!crsong.src) return -1;
+        const currentTrackFilename = crsong.src.split('/').pop();
+        return songs.findIndex(song => song === currentTrackFilename);
+    }
 
     // =========================================================================
-    // CORE MUSIC PLAYER LOGIC
+    // CORE MUSIC & UI LOGIC
     // =========================================================================
 
     /**
-     * Fetches the list of song file names from a manifest file in a given folder.
-     * @param {string} folderPath - The path to the folder (e.g., "/Songs/ncs").
-     * @returns {Promise<string[]>} A list of song file names.
+     * Fetches the list of song file names from a manifest file.
      */
     async function getSongs(folderPath) {
         currFolder = folderPath;
         try {
             const response = await fetch(`${BASE_URL}${folderPath}/songs.json`);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             const data = await response.json();
-            return data.songs; // Returns an array of filenames like ["Song 1.mp3", ...]
+            return data.songs;
         } catch (error) {
             console.error(`Failed to load songs for ${folderPath}:`, error);
             return [];
@@ -756,106 +753,70 @@ document.addEventListener("DOMContentLoaded", function() {
 
     /**
      * Plays a song and updates the player UI.
-     * @param {string} track - The filename of the song to play (e.g., "My Song.mp3").
-     * @param {boolean} [paused=false] - If true, load the song but don't play it immediately.
      */
     const playMusic = (track, paused = false) => {
-        crsong.src = `${BASE_URL}${currFolder}/` + track;
+        crsong.src = `${BASE_URL}${currFolder}/${track}`;
+        songInfoDiv.innerHTML = track.replace(".mp3", "").replaceAll("%20", " ");
         if (!paused) {
             crsong.play().catch(e => console.error("Error playing audio:", e));
             playButton.src = "img/pause.svg";
         }
-        songInfoDiv.innerHTML = track.replace(".mp3", "").replaceAll("%20", " ");
-        songDurationDiv.innerHTML = "00:00 / 00:00";
     };
 
     /**
-     * Clears and redraws the playlist in the UI based on the provided songs.
-     * @param {string[]} playlist - The list of song filenames to display.
+     * Redraws the playlist in the UI. Event listeners are handled by delegation.
      */
     function refreshPlaylistUI(playlist) {
-        songListUL.innerHTML = ""; // Clear the existing list
-
+        songListUL.innerHTML = "";
         for (const songFile of playlist) {
             const songName = songFile.replace(".mp3", "").replaceAll("%20", " ");
             songListUL.innerHTML += `
-                <li class="songitem flex">
+                <li class="songitem" data-songfile="${songFile}">
                     <img class="invert" src="img/musicsym.svg" alt="music symbol">
                     <div class="songinfo">
                         <div>${songName}</div>
                         <div>Artist Name</div>
                     </div>
-                    <div class="play-now flex">
+                    <div class="play-now">
                         <span>Play Now</span>
                         <img class="invert" src="img/playm.svg" alt="play icon">
                     </div>
                 </li>`;
         }
-
-        // Re-attach event listeners to the new list items
-        Array.from(songListUL.getElementsByTagName("li")).forEach(li => {
-            li.addEventListener("click", () => {
-                const songNameDiv = li.querySelector(".songinfo div:first-child");
-                // Reconstruct the filename from the display name
-                const songFilename = songNameDiv.innerHTML.replaceAll(" ", "%20") + ".mp3";
-                playMusic(songFilename);
-            });
-        });
     }
 
     /**
-     * Fetches album data from the manifest and displays them as cards.
+     * Fetches album data and displays them as cards. Event listeners are handled by delegation.
      */
     async function displayAlbums() {
         try {
             const response = await fetch(`${BASE_URL}/Songs/albums.json`);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             const albums = await response.json();
 
-            // Loop through the album data and create cards
-            cardContainer.innerHTML = ""; // Clear existing cards
+            cardContainer.innerHTML = "";
             for (const album of albums) {
                 cardContainer.innerHTML += `
                     <div data-folder="${album.folder}" class="cards">
                         <div class="play">
-                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="#000000" fill="none">
-                                <path d="M18.8906 12.846C18.5371 14.189 16.8667 15.138 13.5257 17.0361C10.296 18.8709 8.6812 19.7884 7.37983 19.4196C6.8418 19.2671 6.35159 18.9776 5.95624 18.5787C5 17.6139 5 15.7426 5 12C5 8.2574 5 6.3861 5.95624 5.42132C6.35159 5.02245 6.8418 4.73288 7.37983 4.58042C8.6812 4.21165 10.296 5.12907 13.5257 6.96393C16.8667 8.86197 18.5371 9.811 18.8906 11.154C19.0365 11.7084 19.0365 12.2916 18.8906 12.846Z" stroke="#141B34" stroke-width="1.5" fill="#000000" stroke-linejoin="round" />
-                            </svg>
+                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M18.8906 12.846C18.5371 14.189 16.8667 15.138 13.5257 17.0361C10.296 18.8709 8.6812 19.7884 7.37983 19.4196C6.8418 19.2671 6.35159 18.9776 5.95624 18.5787C5 17.6139 5 15.7426 5 12C5 8.2574 5 6.3861 5.95624 5.42132C6.35159 5.02245 6.8418 4.73288 7.37983 4.58042C8.6812 4.21165 10.296 5.12907 13.5257 6.96393C16.8667 8.86197 18.5371 9.811 18.8906 11.154C19.0365 11.7084 19.0365 12.2916 18.8906 12.846Z" stroke="#141B34" stroke-width="1.5" fill="#000" stroke-linejoin="round"/></svg>
                         </div>
                         <img src="Songs/${album.folder}/cover.jpg" alt="Album Cover">
                         <h2>${album.title}</h2>
                         <p>${album.description}</p>
                     </div>`;
             }
-
-            // Attach event listeners after all cards are created
-            Array.from(document.getElementsByClassName("cards")).forEach(e => {
-                e.addEventListener("click", async item => {
-                    const folderName = item.currentTarget.dataset.folder;
-                    if (folderName) {
-                        songs = await getSongs(`/Songs/${folderName}`);
-                        if (songs.length > 0) {
-                            refreshPlaylistUI(songs);
-                            playMusic(songs[0]); // Autoplay first song of the new playlist
-                        }
-                    }
-                });
-            });
-
         } catch (error) {
             console.error("Failed to display albums:", error);
         }
     }
 
-
     // =========================================================================
-    // EVENT LISTENERS
+    // EVENT LISTENERS SETUP
     // =========================================================================
 
     function setupEventListeners() {
-        // Play/Pause button
+        // Play/Pause main button
         playButton.addEventListener("click", () => {
             if (crsong.paused) {
                 crsong.play();
@@ -866,99 +827,99 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
 
-        // Previous button
+        // Previous and Next buttons
         prevButton.addEventListener("click", () => {
             if (!songs.length) return;
-            const currentTrackName = crsong.src.split('/').pop();
-            let index = songs.findIndex(song => song === currentTrackName);
-            if (index === -1) index = 0; // Fallback
-            const newIndex = (index - 1 + songs.length) % songs.length;
-            playMusic(songs[newIndex]);
+            let index = getCurrentSongIndex();
+            playMusic(songs[(index - 1 + songs.length) % songs.length]);
         });
 
-        // Next button
         nextButton.addEventListener("click", () => {
             if (!songs.length) return;
-            const currentTrackName = crsong.src.split('/').pop();
-            let index = songs.findIndex(song => song === currentTrackName);
-            if (index === -1) index = 0; // Fallback
-            const newIndex = (index + 1) % songs.length;
-            playMusic(songs[newIndex]);
+            let index = getCurrentSongIndex();
+            if (index === -1) index = -1; // handles case where no song is loaded
+            playMusic(songs[(index + 1) % songs.length]);
         });
-
-        // Time update for seekbar
+        
+        // Update seekbar as song plays
         crsong.addEventListener("timeupdate", () => {
-            if (crsong.duration) {
+            if (!isNaN(crsong.duration)) {
                 songDurationDiv.innerHTML = `${formatTime(crsong.currentTime)} / ${formatTime(crsong.duration)}`;
                 circle.style.left = (crsong.currentTime / crsong.duration) * 100 + "%";
             }
         });
-        
-        // Song ends, play next
-        crsong.addEventListener('ended', () => {
-            nextButton.click();
-        });
 
-        // Seekbar click
+        // Play next song when current one ends
+        crsong.addEventListener('ended', () => nextButton.click());
+
+        // Allow user to click on the seekbar to jump
         seekbar.addEventListener("click", (e) => {
-            if (crsong.duration) {
-                const percent = (e.offsetX / e.target.getBoundingClientRect().width) * 100;
-                circle.style.left = percent + "%";
-                crsong.currentTime = (percent * crsong.duration) / 100;
+            if (!isNaN(crsong.duration)) {
+                const percent = (e.offsetX / e.target.getBoundingClientRect().width);
+                crsong.currentTime = percent * crsong.duration;
             }
         });
 
-        // Volume control
+        // Volume controls
         volumeControlRange.addEventListener("change", (e) => {
             crsong.volume = parseInt(e.target.value) / 100;
-            if (crsong.volume === 0) {
-                volumeControlImg.src = "img/mute.svg";
-            } else {
-                volumeControlImg.src = "img/vol.svg";
-            }
+            volumeControlImg.src = crsong.volume === 0 ? "img/mute.svg" : "img/vol.svg";
         });
-        
-        volumeControlImg.addEventListener("click", e => {
-            if (e.target.src.includes("vol.svg")) {
-                e.target.src = "img/mute.svg";
+
+        volumeControlImg.addEventListener("click", () => {
+            if (crsong.volume > 0) {
                 crsong.volume = 0;
+                volumeControlImg.src = "img/mute.svg";
                 volumeControlRange.value = 0;
             } else {
-                e.target.src = "img/vol.svg";
-                crsong.volume = 0.5; // Restore to a default volume
+                crsong.volume = 0.5;
+                volumeControlImg.src = "img/vol.svg";
                 volumeControlRange.value = 50;
             }
         });
 
-        // Hamburger menu for mobile
-        hamburger.addEventListener("click", () => {
-            leftBox.style.left = "0%";
-        });
+        // Hamburger menu for mobile view
+        hamburger.addEventListener("click", () => { leftBox.style.left = "0%"; });
+        cross.addEventListener("click", () => { leftBox.style.left = "-120%"; });
+        
+        // --- Event Delegation for Dynamic Content ---
 
-        cross.addEventListener("click", () => {
-            leftBox.style.left = "-120%";
+        // Handle clicks on album cards
+        cardContainer.addEventListener("click", async (e) => {
+            const card = e.target.closest(".cards");
+            if (card) {
+                const folderName = card.dataset.folder;
+                songs = await getSongs(`/Songs/${folderName}`);
+                if (songs.length > 0) {
+                    refreshPlaylistUI(songs);
+                    playMusic(songs[0]);
+                }
+            }
+        });
+        
+        // Handle clicks on songs in the playlist
+        songListUL.addEventListener("click", (e) => {
+            const songItem = e.target.closest(".songitem");
+            if (songItem) {
+                playMusic(songItem.dataset.songfile);
+            }
         });
     }
-
 
     // =========================================================================
     // INITIALIZATION
     // =========================================================================
-
     async function main() {
         setupEventListeners();
         await displayAlbums();
 
-        // Load an initial playlist (optional, but good for user experience)
-        songs = await getSongs("/Songs/ncs"); // Default playlist
+        // Load a default playlist on startup
+        songs = await getSongs("/Songs/ncs");
         if (songs.length > 0) {
             refreshPlaylistUI(songs);
             playMusic(songs[0], true); // Load first song but keep it paused
-        } else {
-            console.error("No songs found on initial load. Check server and folder path.");
         }
     }
 
     main();
 });
-
