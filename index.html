@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/utility.css">
+    <title>
+        Spotify Player
+    </title>
+</head>
+
+<body>
+
+    <div class="container flex bg-black">
+        <div class="right-box ">
+            <img class="cross invert" src="img/cross.svg" alt="">
+            <div class="bg-grey m1 b1">
+                <div class="logo invert "> <img src="img/logo.svg" alt="logo"></div>
+                <div class="home invert">
+                    <ul>
+                        <li class="flex"><img src="img/home.svg" alt="home">HOME</li>
+                        <li class="flex"><img src="img/search.svg" alt="search">SEARCH</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="library bg-grey m2 b1 flex " style="gap: 15px;">
+                <!-- <div style="display: flex;gap: 7px;height: 5vh;"> -->
+                <div class="head invert">
+                    <img src="img/lib.svg" alt="">
+                </div>
+                <h2>Library</h2>
+
+                <div class="fotter" style="gap: 15px;">
+                    <div><a href="https://web.archive.org/web/20231223001447mp_/https://www.spotify.com/us/legal/"><span>Legal</span></a>
+                    </div>
+                    <div><a href="https://web.archive.org/web/20231223001447mp_/https://www.spotify.com/us/privacy/"><span>Privacy
+                                Center</span></a></div>
+                    <div><a href="https://web.archive.org/web/20231223001447mp_/https://www.spotify.com/us/legal/privacy-policy/"><span>Privacy
+                                Policy</span></a></div>
+                    <div><a href="https://web.archive.org/web/20231223001447mp_/https://www.spotify.com/us/legal/cookies-policy/"><span>Cookies</span></a>
+                    </div>
+                    <div><a href="https://web.archive.org/web/20231223001447mp_/https://www.spotify.com/us/legal/privacy-policy/#s3"><span>About
+                                Ads</span></a></div>
+                </div>
+                <div class="songlist" style="margin-top: 50px;">
+                    <ul>
+                        <!-- <li class="songitem flex">
+                            <img class="invert" src="musicsym.svg" alt="music symbol">
+                            <div class="songinfo">
+                                <div>${hi}</div>
+                                <div>Artist Name</div>
+                            </div>
+                            <div class="play-now flex">
+                                <span>Play Now</span>
+                                <img class="invert" src="playm.svg" alt="play icon">
+                            </div>
+                        </li>` -->
+                    </ul>
+                </div>
+                <!-- <div class="songlist flex" style="position: relative;
+                    padding-top: 17%;">
+                    <ul class="songitem">
+
+                        <li class="flex" style="position: absolute;width: 20%;">
+                            <div class=" invert flex"><img src="musicsym.svg" alt="">
+                                <div class="songinfo invert">
+                                    <div>Song Name</div>
+                                    <div>Artist Name</div>
+                                </div>
+
+                                <div class="play-now">
+                                    <p class="invert">Play Now</p>
+                                    <img src="playm.svg" class="play-icon">
+
+                                </div>
+
+                            </div>
+                        </li> 
+                </ul>
+            </div>-->
+            </div>
+
+
+        </div>
+        <div class="left-box ">
+            <div class=" header ">
+                <div class=" nav invert ">
+                    <img class="hamburger " width="25px" src="img/hamburger.svg" alt="">
+                    <svg class="lr" xmlns=" http://www.w3.org/2000/svg " viewBox=" 0 0 24 24 " width=" 24 " height=" 24 " color=" #000000 " fill=" none ">
+                            <path d=" M15 6C15 6 9.00001 10.4189 9 12C8.99999 13.5812 15 18 15 18 " stroke=" #141B34 "
+                                stroke-width=" 1.5 " stroke-linecap=" round " stroke-linejoin=" round " />
+                        </svg>
+                    <svg class="rl" xmlns=" http://www.w3.org/2000/svg " viewBox=" 0 0 24 24 " width=" 24 " height=" 24 " color=" #000000 " fill=" none ">
+                            <path d=" M9.00005 6C9.00005 6 15 10.4189 15 12C15 13.5812 9 18 9 18 "
+                                stroke=" currentColor " stroke-width=" 1.5 " stroke-linecap=" round "
+                                stroke-linejoin=" round "></path>
+                        </svg>
+                </div>
+                <div class=" button ">
+                    <button class=" lgbtn ">Sign Up</button>
+                    <button class=" sgbtn ">Login In</button>
+                </div>
+            </div>
+            <div class=" spotify-playlist ">
+                <h2>Spotify Playlist</h2>
+                <div class="card-container" style="flex-wrap: wrap;">
+                    <!-- <div data-folder="cs" class="cards">
+                        <div class="play">
+                            <svg xmlns=" http://www.w3.org/2000/svg " viewBox=" 0 0 24 24 " width=" 24 " height=" 24 " color=" #000000 " fill=" none ">
+                                    <path
+                                        d=" M18.8906 12.846C18.5371 14.189 16.8667 15.138 13.5257 17.0361C10.296 18.8709 8.6812 19.7884 7.37983 19.4196C6.8418 19.2671 6.35159 18.9776 5.95624 18.5787C5 17.6139 5 15.7426 5 12C5 8.2574 5 6.3861 5.95624
+                                        5.42132C6.35159 5.02245 6.8418 4.73288 7.37983 4.58042C8.6812 4.21165 10.296 5.12907 13.5257 6.96393C16.8667 8.86197 18.5371 9.811 18.8906 11.154C19.0365 11.7084 19.0365 12.2916 18.8906 12.846Z "
+                                        stroke=" #141B34 " stroke-width=" 1.5 " fill=" #000000 "
+                                        stroke-linejoin=" round " />
+                                </svg>
+                        </div>
+                        <img src=" https://imaginary.aieasypic.com/resize?url=https://cdnr2.aieasypic.com/all-tools/text-to-image.png&width=800&quality=70&type=webp " alt=" ">
+                        <h2>Happy Hits!</h2>
+                        <p>Hits to boost your mood and fill you with happiness!</p>
+                    </div>
+                    <div data-folder="ncs" class="cards">
+                        <div class="play">
+                            <svg xmlns=" http://www.w3.org/2000/svg " viewBox=" 0 0 24 24 " width=" 24 " height=" 24 " color=" #000000 " fill=" none ">
+                                    <path
+                                        d=" M18.8906 12.846C18.5371 14.189 16.8667 15.138 13.5257 17.0361C10.296 18.8709 8.6812 19.7884 7.37983 19.4196C6.8418 19.2671 6.35159 18.9776 5.95624 18.5787C5 17.6139 5 15.7426 5 12C5 8.2574 5 6.3861 5.95624
+                                        5.42132C6.35159 5.02245 6.8418 4.73288 7.37983 4.58042C8.6812 4.21165 10.296 5.12907 13.5257 6.96393C16.8667 8.86197 18.5371 9.811 18.8906 11.154C19.0365 11.7084 19.0365 12.2916 18.8906 12.846Z "
+                                        stroke=" #141B34 " stroke-width=" 1.5 " fill=" #000000 "
+                                        stroke-linejoin=" round " />
+                                </svg>
+                        </div>
+                        <img src=" https://imaginary.aieasypic.com/resize?url=https://cdnr2.aieasypic.com/all-tools/text-to-image.png&width=800&quality=70&type=webp " alt=" ">
+                        <h2>Happy Hits!</h2>
+                        <p>Hits to boost your mood and fill you with happiness!</p>
+                    </div>
+                    <div class=" cards ">
+                        <div class="play">
+                            <svg xmlns=" http://www.w3.org/2000/svg " viewBox=" 0 0 24 24 " width=" 24 " height=" 24 " color=" #000000 " fill=" none ">
+                                    <path
+                                        d=" M18.8906 12.846C18.5371 14.189 16.8667 15.138 13.5257 17.0361C10.296 18.8709 8.6812 19.7884 7.37983 19.4196C6.8418 19.2671 6.35159 18.9776 5.95624 18.5787C5 17.6139 5 15.7426 5 12C5 8.2574 5 6.3861 5.95624
+                                        5.42132C6.35159 5.02245 6.8418 4.73288 7.37983 4.58042C8.6812 4.21165 10.296 5.12907 13.5257 6.96393C16.8667 8.86197 18.5371 9.811 18.8906 11.154C19.0365 11.7084 19.0365 12.2916 18.8906 12.846Z "
+                                        stroke=" #141B34 " stroke-width=" 1.5 " fill=" #000000 "
+                                        stroke-linejoin=" round " />
+                                </svg>
+                        </div>
+                        <img src=" https://imaginary.aieasypic.com/resize?url=https://cdnr2.aieasypic.com/all-tools/text-to-image.png&width=800&quality=70&type=webp " alt=" ">
+                        <h2>Happy Hits!</h2>
+                        <p>Hits to boost your mood and fill you with happiness!</p>
+                    </div>
+                    <div class=" cards ">
+                        <div class="play">
+                            <svg xmlns=" http://www.w3.org/2000/svg " viewBox=" 0 0 24 24 " width=" 24 " height=" 24 " color=" #000000 " fill=" none ">
+                                    <path
+                                        d=" M18.8906 12.846C18.5371 14.189 16.8667 15.138 13.5257 17.0361C10.296 18.8709 8.6812 19.7884 7.37983 19.4196C6.8418 19.2671 6.35159 18.9776 5.95624 18.5787C5 17.6139 5 15.7426 5 12C5 8.2574 5 6.3861 5.95624
+                                        5.42132C6.35159 5.02245 6.8418 4.73288 7.37983 4.58042C8.6812 4.21165 10.296 5.12907 13.5257 6.96393C16.8667 8.86197 18.5371 9.811 18.8906 11.154C19.0365 11.7084 19.0365 12.2916 18.8906 12.846Z "
+                                        stroke=" #141B34 " stroke-width=" 1.5 " fill=" #000000 "
+                                        stroke-linejoin=" round " />
+                                </svg>
+                        </div>
+                        <img src=" https://imaginary.aieasypic.com/resize?url=https://cdnr2.aieasypic.com/all-tools/text-to-image.png&width=800&quality=70&type=webp " alt=" ">
+                        <h2>Happy Hits!</h2>
+                        <p>Hits to boost your mood and fill you with happiness!</p>
+                    </div> -->
+                </div>
+                <!-- <div class="player flex "> -->
+                <!--  <div> 
+                    <div class="songinfos"></div>
+                    <div id="prev" class="prev invert ">
+                        <img src="prev.svg " alt=" ">
+                    </div>
+                    <div id="play " class="playbtn invert ">
+                        <img id="play1" src=" playm.svg " alt=" ">
+                    </div>
+                    <div id="next" class="nextb invert ">
+                        <img src="next.svg " alt=" ">
+                    </div>
+                    <div class="songdur "></div>
+                </div> 
+                <div class="seekbar ">
+                    <div class="circle "></div> 
+
+                </div> -->
+
+                <div class="playbar">
+                    <div class="song-controls" style="padding: 0; margin: 0; font-family: lool; justify-content: space-between; height: 6vh; display: flex; align-items: center;">
+                        <div class="songinfos" style="font-size: 15px; flex-grow: 1;">
+                        </div>
+                        <div class="player-buttons" style="display: flex; align-items: center; gap: 15px;">
+                            <img id="prev" class="invert" style="width: 35px; cursor: pointer;" src="img/prev.svg" alt="previous">
+                            <img id="play1" class="invert" style="width: 35px; cursor: pointer;" src="img/playm.svg" alt="play">
+                            <img id="next" class="invert" style="width: 35px; cursor: pointer;" src="img/next.svg" alt="next">
+                        </div>
+                        <div class="song-time-controls" style="display: flex; align-items: center; gap: 10px;  flex-grow: 1; justify-content: flex-end;">
+                            <span class="songdur" style="padding-right: 25px;">00:00 / 00:00</span>
+                            <div class="volume">
+                                <img class="invert" width="30px" src="img/vol.svg" alt="">
+                                <div class="range">
+                                    <input type="range" min="0 " max="1 " step="0.01 " value="1 " class="volume " id="volumeControl " style="width: 80px; cursor: pointer; ">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="seekbar " style="width: 98%; background-color: #444; height: 4px; position: relative; ">
+                        <div class="circle " style="width: 12px; height: 12px; border-radius: 50%; background-color: white; position: absolute; top: -4px; left: 0; "></div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="playbar " style="scrollbar-color: #444 #222; padding: 0%; margin: 0%; font-family: lool; border-radius: 24px; bottom: 0; width: 100%; position: fixed; background: blue; ">
+            <div class="song-controls " style=" scrollbar-color: #444 #222; padding: 0%; margin: 0%; font-family: lool; justify-content: space-around; height: 6vh; display: flex; ">
+                <div class="songinfos ">
+                </div>
+                <div class="player-buttons ">
+                    <img id="img/ " class="invert " src=" prev.svg " alt="previous ">
+                    <img id="play1 " class="invert " src="playm.svg " alt="play ">
+                    <img id="next " class="invert " src="next.svg " alt="next ">
+                </div>
+                <div class="songdur ">
+                </div>
+            </div>
+            <div class="seekbar ">
+                <div class="circle "></div>
+            </div>
+        </div> -->
+        </div>
+    </div>
+    <script src="js/main.js "></script>
+</body>
+
+</html>
+
+</html>
