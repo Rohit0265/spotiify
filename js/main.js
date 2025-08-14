@@ -101,7 +101,7 @@ function refreshPlaylistUI(playlist) {
  * Load albums dynamically
  */
 async function display1() {
-    const response = await fetch(`${url}Songs/`);
+    const response = await fetch(`/Songs/`);
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -260,4 +260,5 @@ async function main() {
 }
 
 main();
+
 
