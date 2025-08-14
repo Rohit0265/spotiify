@@ -1,0 +1,129 @@
+    /* @font-face {
+        font-family: lool;
+        src: url("Circular/CircularStd-Bold.otf");
+    } */
+    
+    @font-face {
+        font-family: lool;
+        src: url('Circular/CircularStd-Bold.otf');
+        /* format('opentype'); */
+        font-weight: bold;
+    }
+    
+    * {
+        padding: 0%;
+        margin: 0%;
+        font-family: lool;
+    }
+    
+    body {
+        background-color: black;
+        overflow-x: hidden;
+        overflow-y: hidden;
+    }
+    
+    .left-box {
+        /* left: 0; */
+        width: 78vw;
+        position: absolute;
+    }
+    
+    .right-box {
+        padding: 9px;
+        width: 295px;
+    }
+    
+    .home ul li {
+        width: 16px;
+        gap: 15px;
+        list-style: none;
+        padding-top: 15px;
+    }
+    
+    .spotify-playlist {
+        margin: 10px;
+    }
+    
+    .card-container {
+        overflow: auto;
+        margin: 15px;
+        display: flex;
+        gap: 15px;
+        height: 78vh;
+    }
+    
+    .spotify-playlist h2 {
+        color: white;
+    }
+    
+    .spotify-playlist p {
+        color: white;
+    }
+    
+    .spotify-playlist .cards {
+        border-radius: 5px;
+        background-color: #121212;
+        padding: 10px;
+    }
+    
+    .lgbtn {
+        background-color: #121212;
+        color: grey;
+        border: none;
+        font-size: 23px;
+        cursor: pointer;
+    }
+    
+    .lgbtn:hover {
+        color: white;
+        font-size: 25px
+    }
+    
+    .sgbtn {
+        background-color: white;
+        color: black;
+        border: none;
+        width: 71px;
+        height: 40px;
+        border-radius: 40px;
+    }
+    
+    .sgbtn:hover {
+        background-color: white;
+        color: black;
+        border: none;
+        font-size: 15px;
+        font: bold;
+        height: 44px;
+        border-radius: 40px;
+    }
+    
+    .button>* {
+        margin: 5px;
+    }
+    
+    .songinfos {
+        margin-left: 55px;
+    }
+    
+    .volume {
+        margin-right: 30px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .nav {
+        margin-top: 10px;
+    }
+    
+    .player {
+        background-color: rgb(65 64 64 / 92%);
+        justify-content: center;
+        gap: 13px;
+        left: 0;
+        /* <-- Add this */
+        right: 0;
+        position: fixed;
+        bottom: 0;
+    }
